@@ -1,11 +1,20 @@
+import type { ComponentType } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from './table';
+
+const tableSubcomponents = {
+  TableHead,
+  TableBody,
+  TableRow,
+  TableHeader,
+  TableCell,
+} satisfies Record<string, ComponentType>;
 
 const meta: Meta<typeof Table> = {
   title: 'Primitives/Table',
   component: Table,
   tags: ['autodocs'],
-  subcomponents: { TableHead, TableBody, TableRow, TableHeader, TableCell } as any,
+  subcomponents: tableSubcomponents,
 };
 
 export default meta;
