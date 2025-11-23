@@ -122,6 +122,21 @@ npm run lint
 npm start
 ```
 
+## 🔄 CI/CD con GitHub Actions + Vercel
+
+La ruta `.github/workflows/ci.yml` define una pipeline automática que valida cada cambio y despliega en Vercel cuando corresponde.
+
+### Cómo funciona
+1. **`quality` job** (push y PR contra `main`): instala dependencias con `npm ci`, ejecuta `npm run lint`, `npm run test -- --run` y `npm run build`. Si algo falla se bloquea el merge/deploy.
+2. **`deploy` job** (solo push a `main`): reutiliza el código validado, ejecuta `vercel pull/build/deploy` y publica en producción usando la CLI oficial (`npx vercel deploy --prebuilt --prod`).
+
+### Secretos requeridos en GitHub
+1. **`VERCEL_TOKEN`**: generar en `https://vercel.com/account/tokens`.
+2. **`VERCEL_ORG_ID`** y **`VERCEL_PROJECT_ID`**: ejecutar localmente `npx vercel link` en este repo o abrir el archivo `.vercel/project.json` resultante para copiar `orgId` y `projectId`.
+3. Añadirlos en `Settings > Secrets and variables > Actions` del repo.
+
+Con esos secretos configurados la pipeline desplegará automáticamente cada push en `main`. Los Pull Requests seguirán ejecutando solo validaciones, por lo que se puede iterar con confianza antes de publicar.
+
 ## 📝 Convenciones de Código
 
 - **Nomenclatura de archivos**: kebab-case (`podcast-card.tsx`)
