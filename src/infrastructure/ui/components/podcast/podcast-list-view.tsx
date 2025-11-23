@@ -1,7 +1,7 @@
 'use client';
 
 import { Podcast } from '@/domain/models/podcast';
-import { usePodcastFilter } from '@/infrastructure/ui/hooks/use-podcast-filter';
+import { usePodcastFilter } from '@/infrastructure/ui/hooks';
 import { PodcastCard } from './podcast-card';
 import { SearchFilter } from './search-filter';
 import './podcast-list-view.css';
@@ -11,7 +11,7 @@ interface PodcastListViewProps {
 }
 
 export function PodcastListView({ podcasts }: PodcastListViewProps) {
-  const { filter, setFilter, filteredPodcasts } = usePodcastFilter(podcasts);
+  const { filter, setFilter, filteredPodcasts, searchInputRef } = usePodcastFilter(podcasts);
 
   return (
     <div className="podcast-list-view">
@@ -19,6 +19,7 @@ export function PodcastListView({ podcasts }: PodcastListViewProps) {
         count={filteredPodcasts.length}
         filterValue={filter}
         onFilterChange={setFilter}
+        inputRef={searchInputRef}
       />
       {filteredPodcasts.length > 0 ? (
         <div className="podcast-list-view__grid">

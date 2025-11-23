@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { Header } from '@/infrastructure/ui/components/common/header';
-import { NavigationProvider } from '@/infrastructure/ui/context/navigation-context';
+import { NavigationProvider } from '@/infrastructure/ui/context';
 import '@/infrastructure/ui/styles/globals.css';
 import '@/infrastructure/ui/styles/loading.css';
 

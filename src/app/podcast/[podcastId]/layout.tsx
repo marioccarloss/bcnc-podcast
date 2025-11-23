@@ -15,13 +15,13 @@ export default async function PodcastLayout({
   params: Promise<{ podcastId: string }>;
 }) {
   const { podcastId } = await params;
-  
+
   const { podcast } = await getPodcastDetailsUseCase.execute(podcastId);
-  
+
   const { podcasts } = await getTopPodcastsUseCase.execute();
-  
-  const podcastWithSummary = podcasts.find(p => p.id === podcastId);
-  
+
+  const podcastWithSummary = podcasts.find((p) => p.id === podcastId);
+
   const completePodcast = {
     ...podcast,
     summary: podcastWithSummary?.summary || podcast.summary || '',
