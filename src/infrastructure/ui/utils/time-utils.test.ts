@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatDuration } from './time-utils';
+import { formatDuration } from './index';
 
 describe('time-utils', () => {
   describe('formatDuration', () => {
@@ -22,7 +22,7 @@ describe('time-utils', () => {
     });
 
     it('should handle zero correctly', () => {
-        expect(formatDuration(0)).toBe('00:00');
+      expect(formatDuration(0)).toBe('00:00');
     });
   });
 });

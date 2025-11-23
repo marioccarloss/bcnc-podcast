@@ -7,7 +7,7 @@ vi.mock('next/navigation', () => ({
   usePathname: () => '/',
 }));
 
-vi.mock('@/infrastructure/ui/context/navigation-context', () => ({
+vi.mock('@/infrastructure/ui/context', () => ({
   useNavigation: () => ({
     startNavigation: vi.fn(),
   }),
@@ -24,21 +24,21 @@ describe('PodcastCard', () => {
 
   it('should render podcast title as a heading', () => {
     render(<PodcastCard podcast={mockPodcast} />);
-    
+
     const title = screen.getByRole('heading', { name: /TEST PODCAST/i });
     expect(title).toBeDefined();
   });
 
   it('should render podcast author', () => {
     render(<PodcastCard podcast={mockPodcast} />);
-    
+
     const author = screen.getByText(/Author: Test Author/i);
     expect(author).toBeDefined();
   });
 
   it('should render podcast image with correct alt text', () => {
     render(<PodcastCard podcast={mockPodcast} />);
-    
+
     const image = screen.getByRole('img', { name: /Test Podcast/i });
     expect(image).toBeDefined();
     expect(image.getAttribute('src')).toContain('example.com/image.jpg');

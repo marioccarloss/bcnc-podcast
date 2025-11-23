@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode, Suspense } from 'react';
+import { createContext, useContext, useState, ReactNode, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 interface NavigationContextType {
@@ -11,13 +11,22 @@ interface NavigationContextType {
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
 function NavigationProviderContent({ children }: { children: ReactNode }) {
-  const [isNavigating, setIsNavigating] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isNavigating, setIsNavigating] = useState(false);
+  const [prevPath, setPrevPath] = useState(pathname);
+  const [prevSearchParams, setPrevSearchParams] = useState(searchParams?.toString());
 
-  useEffect(() => {
-    setIsNavigating(false);
-  }, [pathname, searchParams]);
+  const currentSearchParamsStr = searchParams?.toString();
+
+  if (pathname !== prevPath || currentSearchParamsStr !== prevSearchParams) {
+    setPrevPath(pathname);
+    setPrevSearchParams(currentSearchParamsStr);
+
+    if (isNavigating) {
+      setIsNavigating(false);
+    }
+  }
 
   const startNavigation = () => {
     setIsNavigating(true);
@@ -41,7 +50,7 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
 export function useNavigation() {
   const context = useContext(NavigationContext);
   if (context === undefined) {
-    throw new Error('useNavigation must be used within a NavigationProvider');
+    throw new Error('useNavigation debe utilizarse dentro de un NavigationProvider');
   }
   return context;
 }

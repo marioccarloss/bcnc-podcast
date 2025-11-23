@@ -1,7 +1,8 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { usePodcastFilter } from './use-podcast-filter';
+import { usePodcastFilter } from './index';
 import { Podcast } from '@/domain/models/podcast';
+import { RESET_PODCAST_SEARCH_EVENT } from './use-reset-search';
 
 describe('usePodcastFilter', () => {
   const mockPodcasts: Podcast[] = [
@@ -9,22 +10,22 @@ describe('usePodcastFilter', () => {
       id: '1',
       title: 'React Podcast',
       author: 'Facebook',
-      description: 'A podcast about React',
       image: 'image1.jpg',
+      summary: 'A podcast about React',
     },
     {
       id: '2',
       title: 'Vue Podcast',
       author: 'Evan You',
-      description: 'A podcast about Vue',
       image: 'image2.jpg',
+      summary: 'A podcast about Vue',
     },
     {
       id: '3',
       title: 'Angular Podcast',
       author: 'Google',
-      description: 'A podcast about Angular',
       image: 'image3.jpg',
+      summary: 'A podcast about Angular',
     },
   ];
 
@@ -75,5 +76,20 @@ describe('usePodcastFilter', () => {
     });
 
     expect(result.current.filteredPodcasts).toHaveLength(0);
+  });
+
+  it('should reset filter when the reset event is dispatched', () => {
+    const { result } = renderHook(() => usePodcastFilter(mockPodcasts));
+
+    act(() => {
+      result.current.setFilter('React');
+    });
+
+    act(() => {
+      window.dispatchEvent(new Event(RESET_PODCAST_SEARCH_EVENT));
+    });
+
+    expect(result.current.filter).toBe('');
+    expect(result.current.filteredPodcasts).toEqual(mockPodcasts);
   });
 });

@@ -22,9 +22,7 @@ vi.mock('@/infrastructure/api/itunes-repository-impl', () => ({
 
 vi.mock('@/infrastructure/ui/components/episode/episode-player', () => ({
   EpisodePlayer: ({ episode }: { episode: Episode }) => (
-    <div data-testid="episode-player">
-      {`Playing ${episode.title}`}
-    </div>
+    <div data-testid="episode-player">{`Playing ${episode.title}`}</div>
   ),
 }));
 
