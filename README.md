@@ -132,11 +132,41 @@ npm start
 
 ## 🧪 Testing
 
-Los tests verifican:
+El proyecto utiliza **Vitest** con entorno `jsdom` y `@testing-library/react` para asegurar la calidad tanto de los adaptadores de infraestructura como de la UI.
 
-- Compilación sin errores (`npm run build`)
-- Linter sin warnings (`npm run lint`)
-- Funcionalidad de componentes
+- **Cobertura crítica**: los puertos HTTP se validan con pruebas unitarias que mockean `fetch` usando `vi.fn`, garantizando URLs correctas, caching (`revalidate: 86400`) y parsing hacia el dominio (`src/infrastructure/api/itunes-repository-impl.test.ts`).
+- **Testing Library listo**: los componentes React se testean con `@testing-library/react` cuando aplica, enfocándose en comportamiento observable y accesibilidad.
+- **Coverage y CI**: el comando `bun test --coverage` habilita `@vitest/coverage-v8`; la suite se ejecuta en cada push antes del build para asegurar regresiones cero.
+
+Comandos clave:
+
+```bash
+# Ejecutar suite completa
+bun test
+
+# Con cobertura
+bun test --coverage
+```
+
+## 📚 Storybook
+
+Para documentar y validar visualmente los componentes reutilizables, Storybook 10 está configurado con el builder `@storybook/nextjs-vite` y addons de accesibilidad, docs automáticos y compatibilidad con Vitest.
+
+- **Catálogo de primitivas**: comenzando por `Text`, cada componente en `src/infrastructure/ui/components/primitives` expone historias con `tags: ['autodocs']` para generar documentación viva y controles de props (`as`, `variant`, `children`, etc.).
+- **Pruebas visuales locales**: `bun run storybook` levanta el entorno interactivo en el puerto 6006 para revisar estados, contrastes y variantes sin necesidad de la app completa.
+- **Build estático**: `bun run build-storybook` genera artefactos deployables, listos para compartir en plataformas como Chromatic o un bucket estático.
+
+Esta configuración permite incorporar revisiones de diseño, testear edge cases visuales y detectar regresiones en los componentes antes de integrarlos en la App Router.
+
+## 🔍 Limpieza del buscador
+
+El buscador de podcasts debía mantener una UX coherente: si el usuario filtra en `/` y navega a un detalle, al volver debe ver la lista completa (no un filtro residual). Para lograrlo sin dependencias globales se implementó un pequeño bus de eventos y un hook dedicado.
+
+- **Evento controlado**: `useResetSearch` (`src/infrastructure/ui/hooks/use-reset-search.ts`) expone una función que dispara `podcast-search-reset` en `window`. Esto evita acoplar los componentes de navegación con el estado del input.
+- **Escucha desacoplada**: `usePodcastFilter` suscribe ese evento y limpia el estado local `filter`, además de controlar el enfoque del input via `searchInputRef`. Con esto cualquier reset afecta inmediatamente al contador y a la grilla filtrada.
+- **Integración en la navegación**: `AppLink` detecta cuándo se abandona la ruta `/` y dispara `resetSearch()` antes de iniciar una nueva navegación (`useNavigation`). Los tests (`app-link.test.tsx`) cubren los casos: salir de home limpia, navegar dentro de detalle no altera la búsqueda, y navegar al mismo destino no hace nada.
+
+El resultado es un buscador totalmente controlado desde la capa de infraestructura UI, sin depender del router ni del estado global de Next.js, manteniendo la experiencia consistente y testeada.
 
 ## 📦 Estructura de Datos
 
@@ -185,6 +215,13 @@ Los tests verifican:
 - Sin dependencias externas
 - Demuestra dominio de CSS
 - Metodología escalable y mantenible
+
+### Ventajas del CSS descentralizado
+
+- **Encapsulamiento por dominio**: cada componente mantiene su `.css` junto al `.tsx`, lo que reduce el contexto necesario para editar estilos y evita colisiones globales.
+- **Optimizaciones de build**: al no tener un `globals.css` gigantesco, Next.js tree-shakea imports, cargando solo los estilos usados por cada ruta (mejor TTFB y menor CSS crítico).
+- **Escalabilidad natural**: nuevas vistas (ej. `episode/*`) agregan sus estilos sin tocar archivos compartidos; el versionado en PRs refleja claramente qué pieza UI cambió.
+- **DX consistente**: la combinación de BEM + archivos locales hace triviales los refactors, ya que los selectores `block__element--modifier` viven en su propio contexto y no dependen de cascadas complejas.
 
 ## 📄 Licencia
 
