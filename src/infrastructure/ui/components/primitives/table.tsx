@@ -1,10 +1,7 @@
-import { ReactNode, TableHTMLAttributes } from 'react';
+import { type PropsWithChildren, TableHTMLAttributes } from 'react';
 import './table.css';
 
-interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
-  children: ReactNode;
-  className?: string;
-}
+type TableProps = PropsWithChildren<TableHTMLAttributes<HTMLTableElement> & { className?: string }>;
 
 export function Table({ children, className = '', ...props }: TableProps) {
   return (
@@ -16,40 +13,30 @@ export function Table({ children, className = '', ...props }: TableProps) {
   );
 }
 
-export function TableHead({ children }: { children: ReactNode }) {
+type TableSectionProps = PropsWithChildren;
+
+export function TableHead({ children }: TableSectionProps) {
   return <thead className="table__head">{children}</thead>;
 }
 
-export function TableBody({ children }: { children: ReactNode }) {
+export function TableBody({ children }: TableSectionProps) {
   return <tbody className="table__body">{children}</tbody>;
 }
 
-export function TableRow({
-  children,
-  className = '',
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+type TableRowProps = PropsWithChildren<{ className?: string }>;
+
+export function TableRow({ children, className = '' }: TableRowProps) {
   return <tr className={`table__row ${className}`}>{children}</tr>;
 }
 
-export function TableHeader({
-  children,
-  className = '',
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+type TableHeaderProps = PropsWithChildren<{ className?: string }>;
+
+export function TableHeader({ children, className = '' }: TableHeaderProps) {
   return <th className={`table__header ${className}`}>{children}</th>;
 }
 
-export function TableCell({
-  children,
-  className = '',
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+type TableCellProps = PropsWithChildren<{ className?: string }>;
+
+export function TableCell({ children, className = '' }: TableCellProps) {
   return <td className={`table__cell ${className}`}>{children}</td>;
 }
