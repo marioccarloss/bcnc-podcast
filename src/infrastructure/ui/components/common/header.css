@@ -5,9 +5,10 @@
 }
 
 .header__container {
-  max-width: 1200px;
+  max-width: var(--container-max-width);
+  width: var(--container-width);
   margin: 0 auto;
-  padding: 0 var(--spacing-md);
+  padding: 0 var(--container-padding);
   display: flex;
   justify-content: space-between;
   align-items: center;

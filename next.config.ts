@@ -1,10 +1,12 @@
 import type { NextConfig } from 'next';
 
-const nextConfig: NextConfig = {
+interface CustomNextConfig extends NextConfig {
+  cacheComponents?: boolean;
+}
+
+const nextConfig: CustomNextConfig = {
   reactCompiler: true,
-  experimental: {
-    cacheComponents: true,
-  } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+  cacheComponents: true,
 };
 
 export default nextConfig;
