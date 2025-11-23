@@ -10,6 +10,7 @@ on:
 
 env:
   NEXT_TELEMETRY_DISABLED: 1
+  ITUNES_API_URL: https://itunes.apple.com
 
 jobs:
   quality:
