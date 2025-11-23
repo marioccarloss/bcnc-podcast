@@ -1,0 +1,21 @@
+.global-loader-container {
+  position: fixed;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  z-index: 1000;
+}
+
+.global-loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(59, 130, 246, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--color-primary);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

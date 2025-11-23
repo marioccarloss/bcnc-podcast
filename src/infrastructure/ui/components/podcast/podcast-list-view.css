@@ -1,0 +1,13 @@
+.podcast-list-view {
+  max-width: var(--container-max-width);
+  width: var(--container-width);
+  padding: 0 var(--container-padding);
+  margin: 0 auto;
+}
+
+.podcast-list-view__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  row-gap: 60px;
+}
