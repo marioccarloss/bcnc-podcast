@@ -1,0 +1,11 @@
+.image {
+  object-fit: cover;
+}
+
+.image--circle {
+  border-radius: 50%;
+}
+
+.image--square {
+  border-radius: 4px;
+}

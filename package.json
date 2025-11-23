@@ -1,5 +1,5 @@
 {
-  "name": "podcast-app",
+  "name": "podcast-app-next",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest"
+    "lint:fix": "eslint --fix",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "test": "vitest",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "next": "16.0.3",
@@ -15,18 +20,31 @@
     "react-dom": "19.2.0"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^4.1.3",
+    "@storybook/addon-a11y": "^10.0.8",
+    "@storybook/addon-docs": "^10.0.8",
+    "@storybook/addon-onboarding": "^10.0.8",
+    "@storybook/addon-vitest": "^10.0.8",
+    "@storybook/nextjs-vite": "^10.0.8",
+    "@storybook/react": "^10.0.8",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^5.1.1",
+    "@vitest/browser-playwright": "4.0.12",
+    "@vitest/coverage-v8": "4.0.12",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.3",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-storybook": "^10.0.8",
     "jsdom": "^27.2.0",
+    "playwright": "^1.56.1",
     "prettier": "^3.6.2",
+    "storybook": "^10.0.8",
     "typescript": "^5",
     "vitest": "^4.0.12"
   }
